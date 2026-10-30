@@ -1,4 +1,34 @@
 use  std::io ;
+//module from another file
+mod new_math;
+
+//macros 
+
+macro_rules! my_print {
+    ($msg:expr) => {
+        println!("{}" , $msg);
+    };
+}
+
+//Modules
+mod math {
+    fn add(a: f32, b: f32) -> f32 {
+        a + b
+    }
+
+    fn subtract(a: f32, b: f32) -> f32 {
+        a - b
+    }
+
+    fn multiply(a: f32, b: f32) -> f32 {
+        a * b
+    }
+
+    fn divide(a: f32, b: f32) -> f32 {
+        a / b
+    }
+
+}
 
 fn main() {
     //integer inizialization
@@ -198,4 +228,91 @@ fn main() {
     //}
 
     // Error because tuple is not iterable
+
+    //Functions work example
+    test(); //calling the test function
+
+    add(10, 20); //calling the add function with arguments 10 and 20
+
+
+    let user = "BorschT";
+    greet_user(user); //calling the greet_user function with argument user
+
+    let mut username = String::from("Liquor");
+    modern_greet_user(&mut username); //calling the modern_greet_user function with mutable reference to username
+
+    let sum = modern_add(10, 20); //calling the modern_add function with arguments 10 and 20 and storing the return value in sum
+    println!("Sum returned from modern_add function: {}", sum);
+
+    let sum2 = change_modern_add(&mut 30, &mut 40); //calling the modern_add function with arguments 30 and 40 and storing the return value in sum2
+    println!("Sum returned from change_modern_add function: {}", sum2);
+
+    let data = (10, 20);
+    let product = mult(&data); //calling the mult function with reference to data tuple and storing the return value in product
+    println!("Product of {} and {} is : {}", data.0, data.1, product);
+
+    //Macros example of work 
+    my_print!("Hello, this is a macro example!");
+
+
+    //Modules example of work
+    let sum = math::add(10.0, 20.0);
+    let difference = math::subtract(20.0, 10.0);
+    let product = math::multiply(10.0, 20.0);
+    let quotient = math::divide(20.0, 10.0);
+
+    println!("Sum: {}", sum);
+    println!("Difference: {}", difference);
+    println!("Product: {}", product);
+    println!("Quotient: {}", quotient);
+
+    //Modules example of work from another file
+    let sum = new_math::add(10.0, 20.0);
+    let difference = new_math::subtract(20.0, 10.0);
+    let product = new_math::multiply(10.0, 20.0);
+    let quotient = new_math::divide(20.0, 10.0);
+
+    println!("Sum: {}", sum);
+    println!("Difference: {}", difference);
+    println!("Product: {}", product);
+    println!("Quotient: {}", quotient);
+}
+
+//Function 
+fn test() {
+    println!("Hello , i'm test fn")
+}
+
+fn add(a : i16 , b: i16 ) {
+    let res = a+b;
+    println!("Sum of {} and {} is : {}", a, b, res);
+
+}
+
+fn greet_user(name : &str) {
+    println!("Hello, {}!", name);
+}
+
+fn modern_greet_user(name :&mut String) {
+    *name = String::from("Borschiha");
+    println!("Hello, {}!", name);
+}
+
+//Functions with return values
+fn modern_add(a : i16 , b: i16 ) -> i16 {
+    let res = a + b;
+    println!("Sum of {} and {} is : {}", a, b, res);
+    res //returning the sum of a and b
+}
+
+fn change_modern_add(a : &mut i16 , b: &mut i16 ) ->     i16 {
+    let res = *a + *b;
+    println!("Sum of {} and {} is : {}", a, b, res);
+    res//returning the sum of a and b
+}
+
+//example fn with tuple 
+
+fn mult(data : &(i32 , i32)) -> i32 {
+    data.0 * data.1 //returning the product of the two elements in the tuple
 }
