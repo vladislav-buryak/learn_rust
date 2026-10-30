@@ -1,4 +1,5 @@
 use  std::io ;
+use std::collections::HashMap;
 //module from another file
 mod new_math;
 
@@ -12,19 +13,19 @@ macro_rules! my_print {
 
 //Modules
 mod math {
-    fn add(a: f32, b: f32) -> f32 {
+    pub fn add(a: f32, b: f32) -> f32 {
         a + b
     }
 
-    fn subtract(a: f32, b: f32) -> f32 {
+    pub fn subtract(a: f32, b: f32) -> f32 {
         a - b
     }
 
-    fn multiply(a: f32, b: f32) -> f32 {
+    pub fn multiply(a: f32, b: f32) -> f32 {
         a * b
     }
 
-    fn divide(a: f32, b: f32) -> f32 {
+    pub fn divide(a: f32, b: f32) -> f32 {
         a / b
     }
 
@@ -276,6 +277,84 @@ fn main() {
     println!("Difference: {}", difference);
     println!("Product: {}", product);
     println!("Quotient: {}", quotient);
+
+
+    //Vectors 
+    let mut vec : Vec<i32> = Vec::new(); //creating a new vector of type i32
+    vec.push(10); //adding an element to the vector
+    vec.push(20); //adding an element to the vector
+    vec.push(30); //adding an element to the vector
+    println!("Vector elements: {:?}", vec);
+
+    vec[0] = 456; //changing the first element of the vector
+    println!("Vector elements after change: {}", vec[0]);
+
+    let mut vec2 = vec![1 , 2 , 3 , 4 , 5 ]; //creating a new vector using the vec! macro
+    vec2.push(6); //adding an element to the vector
+    vec2[2] = 789; //changing the third element of the vector
+    println!("Vector elements: {:?}", vec2);
+    
+    //Accessing elements of a vector using match statement
+    match vec2.get(2){
+        Some(value) => println!("The value at index 2 is: {}", value),
+        None => println!("No value found at index 2"),
+    }
+
+    //Iterating over a vector using for loop
+    let mut vec3 = vec![100, 200, 300 , 400 , 500 ];
+    for i in &vec3 {
+        println!("Vector element: {}", i);
+    }
+
+    //Modifying elements of a vector using mutable reference
+    for i in &mut vec3 {
+        *i += 50; //modifying the elements of the vector
+    }
+    vec3.pop(); //removing the last element of the vector
+    vec3.remove(1); //removing the second element of the vector
+    println!("Vector elements after modification: {:?}", vec3);
+
+
+    //String 
+    let s1 = String::new();
+    let s2 = String::from("Hello , Rust!");
+
+    println!("String 1: {}", s1);
+    println!("String 2: {}", s2);
+
+    let s3 = s1 + &s2; //concatenating two strings
+    println!("Concatenated String: {}", s3);
+
+    let mut word = String::new();
+    word.push_str("Hello, World!"); //adding a string to the existing string
+    word.push(' '); //adding a character to the existing string
+    word.push_str("This is a string example."); 
+    println!("String 3: {}", word);
+    word.pop(); //removing the last character from the string
+    word.remove(5); //removing the character at index 5 from the string
+    println!("String 3 after pop and remove: {}", word);
+    word.insert(6, ','); //inserting a character at index 5 in the string
+    word.insert_str(7, " Rustaceans"); //inserting a string at index 5 in the string
+    word.replace_range(0..5, "Hi"); //replacing the characters from index 0 to 5 with a new string
+    println!("String 3: {}", word);
+    word.clear(); //clearing the string
+    println!("String 3 after clear: {}", word);
+    
+    //HashMap
+    let mut scores = HashMap::new(); //Create HashMap collection
+
+    scores.insert("English" , 12); // Add key : value 
+    scores.insert("Math" , 9); // Add key : value 
+    scores.insert("Algorithms" , 12); // Add key : value
+
+    println!("Hash : {:?}" , scores);
+
+    scores.insert("English" , 10); // Change value by key
+    println!("Hash : {}" , scores.get("English").unwrap());
+
+    scores.remove("Math"); // Remove element by key
+    println!("Hash {:?}" , scores)
+
 }
 
 //Function 
