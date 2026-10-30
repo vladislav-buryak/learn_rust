@@ -123,11 +123,79 @@ fn main() {
 
     //mutabble borrowing
 
-    let mut s = String::from("Hello");
-    change(&mut s); // mutable borrowing of s
+    let s = String::from("Hello");
+    //change(&mut s); // mutable borrowing of s
 
     println!("s after change: {}", s);
-
-
     
+    //LOOPS
+    //for loop
+    for number in 1..4 {//without including 4
+        println!("Number: {}", number);
+    }
+
+    for number in 1..=4 { //with including 4
+        println!("Number: {}", number);
+    }
+
+    for number in (1..=4).rev() { //reversing the range and including 4
+        println!("Number: {}", number);
+    }   
+
+    for number in (1..=10).rev().step_by(2) { //reversing the range and including 10 and stepping by 2
+        println!("Number: {}", number);
+    }   
+
+    //while loop
+
+    let mut number = 5;
+
+    while number  > 0 {
+        println!("Number: {}", number);
+        number -= 1;
+    }
+
+    //example for with if statement
+    for number in 1..21 {
+        if number % 2 == 0 {
+            continue; //skip the even numbers
+        } 
+
+        if number >= 7 {
+            break; //break the loop if number is greater than or equal to 7
+        }
+
+        println!("Odd Number: {}", number);
+    }
+
+    //loop 
+
+    let mut count = 0 ;
+
+    loop {
+        count += 1;
+        println!("Count: {}", count);
+        
+        if count == 5 {
+            break; //break the loop if count is equal to 5
+        }
+    }
+
+    // array with for loop 
+
+    let array = [10 , 20 ,30 , 40 , 50];
+
+    for el in array {
+        println!("Array element: {}", el);
+    }
+
+    //tuple with for loop 
+
+    //let tuple = ("John Wick", 42, 1.75 , 'M');
+
+    //for el in tuple {
+    //    println!("Tuple element: {}", el);
+    //}
+
+    // Error because tuple is not iterable
 }
