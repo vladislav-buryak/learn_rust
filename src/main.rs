@@ -1,5 +1,6 @@
 use  std::io ;
 use std::collections::HashMap;
+use std::fs;
 //module from another file
 mod new_math;
 
@@ -353,8 +354,50 @@ fn main() {
     println!("Hash : {}" , scores.get("English").unwrap());
 
     scores.remove("Math"); // Remove element by key
-    println!("Hash {:?}" , scores)
+    println!("Hash {:?}" , scores);
 
+
+    //Errors
+    let result = divide(10 , 0);
+    //.expect("Error in division");
+    // Error cause of 0 divide 
+    match result {
+      Ok(value) => println!("{}" , value),
+      Err(e) => println!("Error in function {}" , e),  
+    }
+    
+    
+    //println!("{}" , result);
+    //Expect stop proggram where mistake with your text
+    //Unwrap stop proggram with Proggram return text
+
+    let option = find_element(vec![1 , 2 ,34 , 6] , 3);
+    //.expect("Find element with Error exception");
+    
+    match option {
+    
+        Some(value) => println!("{}" , value ),
+        None => println!("Error , no find element"),
+    }
+    
+    //println!("{}" , option); //Write 1 cause of boolean
+
+    //Files
+    let file_name = "output.txt";
+
+    match write_to_file(file_name , "Check text and hello"){
+        Ok(()) => println!("Data is written"),
+        Err(e) => println!("Error : {}" , e),
+    }
+
+    match read_file(file_name) {
+        Ok(content) => println!("Data : {}" , content),
+        Err(e) => println!("Error : {}" , e),
+    }
+
+    //Threads 
+
+    
 }
 
 //Function 
@@ -394,4 +437,29 @@ fn change_modern_add(a : &mut i16 , b: &mut i16 ) ->     i16 {
 
 fn mult(data : &(i32 , i32)) -> i32 {
     data.0 * data.1 //returning the product of the two elements in the tuple
+}
+
+//error fn 
+fn divide(a : i32 , b : i32 ) -> Result<i32 , String> {//Return Result like number or string 
+    if b == 0{
+        //Result
+        Err(String::from("Division by zero"))
+    } 
+    else { 
+        Ok(a / b) 
+    }
+}
+
+fn find_element(vec : Vec<i32> , value: i32) -> Option<usize> {
+    vec.iter().position(|&x| x == value) // Iteration vector's element and check elment with value
+}
+
+//Files
+
+fn write_to_file(file_path : &str , content : &str) -> Result<() , io::Error> {
+    fs::write(file_path , content)
+}
+
+fn read_file(file_path : &str) -> Result<String , io::Error> {
+    fs::read_to_string(file_path)
 }
