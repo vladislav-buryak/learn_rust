@@ -1,6 +1,10 @@
 use  std::io ;
 use std::collections::HashMap;
 use std::fs;
+use std::thread;
+use std::time::Duration;
+//use from toml 
+use tokio::time::sleep;
 //module from another file
 mod new_math;
 
@@ -32,7 +36,9 @@ mod math {
 
 }
 
-fn main() {
+//Annotation
+#[tokio::main]
+async fn main() {
     //integer inizialization
     let number : i16 = 100;
     //float inizialization
@@ -396,8 +402,53 @@ fn main() {
     }
 
     //Threads 
+    let handle = thread::spawn(|| {
+        for i in  1..5 {
+            println!("Thread : {}" , i);
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
 
+    for i in  1..5 {
+            println!("Main thread : {}" , i);
+            thread::sleep(Duration::from_secs(2));
+    }
+
+    handle.join().unwrap();
+
+    let data = vec![1 , 6 , 3 , 7 , 90];
+
+    let new_handle = thread::spawn({
+        let data_clone = data.clone();
+        move || {
+            for i in data_clone {
+                println!("Thread : {}" , i);
+                thread::sleep(Duration::from_secs(1));
+            }
+        }
+    });
+
+    for i in data {
+            println!("Thread : {}" , i);
+            thread::sleep(Duration::from_secs(1));
+    }
+
+    new_handle.join().unwrap();
+
+    //Async & Await
     
+    let task1 = simulate_download("File 1" , 2).await;
+    let task2 = simulate_download("File 2" , 4).await;
+
+    println!("{} and {} are downloaded" , task1 , task2);
+
+    let (task1 , task2) = tokio::join!(
+        simulate_download("New download File 1" , 3),
+        simulate_download("New download File 2" , 2)
+    );
+
+    println!("{} and {} are downloaded" , task1 , task2);
+
 }
 
 //Function 
@@ -462,4 +513,12 @@ fn write_to_file(file_path : &str , content : &str) -> Result<() , io::Error> {
 
 fn read_file(file_path : &str) -> Result<String , io::Error> {
     fs::read_to_string(file_path)
+}
+
+//Async & Await 
+async fn simulate_download(file_path : &str , duration : u64) -> String {
+    println!("Start include download {}" , file_path);
+    sleep(Duration::from_secs(duration)).await;
+    println!("Finished download {}" , file_path);
+    file_path.to_string()
 }
