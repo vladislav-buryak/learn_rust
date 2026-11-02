@@ -36,6 +36,62 @@ mod math {
 
 }
 
+//Structs & Enums
+struct Point {
+    x : f64 , 
+    y : f64 ,
+    z : f64 ,
+}
+
+struct Color(
+    u8 , u8 , u8
+);
+
+
+struct Marker;
+
+struct Rectangle {
+    width : f64 ,
+    height : f64 ,
+}
+
+impl Rectangle {
+    fn area(&self) -> f64 {
+        self.width * self.height
+    }
+
+    fn perimeter(&self) -> f64 {
+        (self.width + self.height) * 2.0
+    }
+
+}
+
+enum Direction {
+    Up ,
+    Down ,
+    Left ,
+    Right ,
+}
+
+enum Shape{
+    Circle(f64),
+    Rectangle{ width: f64 , height : f64 }
+}
+
+struct Pair<T> {
+    first : T ,
+    second : T ,
+}
+
+fn move_player(moving : Direction) {
+    match moving {
+        Direction::Up => println!("Moving Up"),
+        Direction::Down => println!("Moving Down"),
+        Direction::Left => println!("Moving Left"),
+        Direction::Right => println!("Moving Rigth")
+    }
+}
+
 //Annotation
 #[tokio::main]
 async fn main() {
@@ -449,6 +505,40 @@ async fn main() {
 
     println!("{} and {} are downloaded" , task1 , task2);
 
+
+    //Structs & Enums
+    let point = Point {
+        x : 1.24 , 
+        y : 3.56 ,
+        z : 8.34 ,
+    };
+
+    println!("Point coord : {} , {}  , {} " , point.x , point.y , point.z);
+
+    let red = Color(255 , 0 , 0 );
+    println!("Color : {} , {} , {}" , red.0 , red.1 , red.2);
+    
+    let _marker = Marker;
+
+    let rect1 = Rectangle {
+        width : 3.0 ,
+        height : 4.0 ,
+    };
+
+    println!("Rectangle area : {} , perimeter : {}" , rect1.area() , rect1.perimeter());
+
+
+    let moving = Direction::Up;
+    move_player(moving);
+
+    let shape = Shape::Rectangle { width : 3.0 , height : 4.0 } ; 
+    match shape {
+        Shape::Circle(radius) => println!("Circle with radius : {} " , radius) , 
+        Shape::Rectangle { width , height } => println!("Rectangle with width : {} and height : {}" , width , height)
+    }
+
+    let pair = Pair { first : 10 , second : 45 };
+    println!("Pair : {} , {}" , pair.first , pair.second);
 }
 
 //Function 
